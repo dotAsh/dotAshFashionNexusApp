@@ -1,4 +1,4 @@
-
+using dotAshFashionNexus.Service;
 namespace dotAshFashionNexus.API
 {
     public class Program
@@ -8,7 +8,13 @@ namespace dotAshFashionNexus.API
             var builder = WebApplication.CreateBuilder(args);
 
             // Add services to the container.
+            var useInMemoryDatabase = builder.Configuration.GetValue<bool>("UseInMemoryDatabase");
+            var connectionString = builder.Configuration.GetConnectionString("DefaultSQLConnection");
 
+
+
+           
+            builder.Services.RegisterServiceDependencies(connectionString, useInMemoryDatabase);
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -17,7 +23,7 @@ namespace dotAshFashionNexus.API
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
+            if (app.Environment.IsDevelopment() || !app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
