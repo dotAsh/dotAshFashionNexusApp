@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using dotAshFashionNexus.Service.IServices;
-using dotAshFashionNexus.Persistence.Models;
-using dotAshFashionNexus.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
-using dotAshFashionNexus.Persistence.Models;
+using dotAshFashionNexus.Service;
+
+using dotAshFashionNexus.Service.DTO;
 namespace dotAshFashionNexus.API.Controllers
 {
     
@@ -21,8 +21,6 @@ namespace dotAshFashionNexus.API.Controllers
         protected APIResponse _response;
 
         
-
-       
         public ProductController(IProductService productService, ILogger<ProductController> logger)
         {
             _productService = productService;
@@ -37,7 +35,6 @@ namespace dotAshFashionNexus.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
-
         public async Task<ActionResult<APIResponse>> GetProductByFriendlyNameAsync(string SearchEngineFriendlyName)
         {
             try
@@ -49,7 +46,7 @@ namespace dotAshFashionNexus.API.Controllers
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
-                Object product = await _productService.GetProductByNameAsync(SearchEngineFriendlyName);
+                ProductDTO product = await _productService.GetProductByNameAsync(SearchEngineFriendlyName);
                 if (product == null)
                 {
                     _response.IsSuccess = false;
@@ -76,7 +73,7 @@ namespace dotAshFashionNexus.API.Controllers
             (string? ProductName, string? VariantColor, string? VariantSize,
              string? WarehouseName, int PageSize = 10, int PageNumber = 1, bool InStock = true){
 
-            ProductFilterCriteria filterCriteria = new ProductFilterCriteria
+            ProductFilterCriteriaDTO filterCriteria = new ProductFilterCriteriaDTO
             {
                 InStock = InStock,
                 VariantColor = VariantColor,

@@ -13,7 +13,7 @@ namespace dotAshFashionNexus.API
 
 
             builder.Services.AddMemoryCache();
-
+            builder.Services.AddAutoMapper(typeof(MappingConfig));
             builder.Services.RegisterServiceDependencies(connectionString, useInMemoryDatabase);
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

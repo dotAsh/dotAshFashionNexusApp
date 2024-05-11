@@ -1,4 +1,5 @@
 ﻿using dotAshFashionNexus.Persistence.Models;
+using dotAshFashionNexus.Persistence.Models.DTO;
 using System.Linq.Expressions;
 
 namespace dotAshFashionNexus.Persistence.Repository.IRepository
@@ -9,7 +10,7 @@ namespace dotAshFashionNexus.Persistence.Repository.IRepository
 
         Task<Product> UpdateAsync(Product entity);
 
-        Task<IEnumerable<Object>> GetProd(ProductFilterCriteria filterCriteria);
+        Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteria filterCriteria);
 
 
     }

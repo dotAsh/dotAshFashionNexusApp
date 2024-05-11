@@ -16,7 +16,7 @@ namespace dotAshFashionNexus.Persistence.Models
         public int WarehouseID { get; set; }
         public string Name { get; set; }
 
-        // Navigation property to access stocks associated with this warehouse
+
         public ICollection<Stock> Stocks { get; set; }
     }
 }

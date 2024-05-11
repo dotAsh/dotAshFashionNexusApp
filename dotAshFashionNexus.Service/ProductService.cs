@@ -13,6 +13,8 @@ using dotAshFashionNexus.Service.Mappers;
 using System.Globalization;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using dotAshFashionNexus.Service.IServices;
+using AutoMapper;
+using dotAshFashionNexus.Persistence.Models.DTO;
 //Developed by Md. Ashik
 namespace dotAshFashionNexus.Service
 {
@@ -20,27 +22,27 @@ namespace dotAshFashionNexus.Service
     {
         private readonly IProductRepository _productRepository;
         private readonly IStockRepository _stockRepository;
-        public ProductService(IProductRepository productRepository, IStockRepository stockRepository)
+        private readonly IMapper _mapper;
+        public ProductService(IProductRepository productRepository, IStockRepository stockRepository, IMapper mapper)
         {
+            _mapper = mapper;
             _productRepository = productRepository;
             _stockRepository = stockRepository;
         }
 
-        public async Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteria filterCriteria)
+        public async Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteriaDTO filterCriteriaDTO)
         {
 
 
             IEnumerable<Object> productList;
             
-                productList = await _productRepository.GetProd(filterCriteria);
-
-
+            productList = await _productRepository.GetAllProductsAsync(_mapper.Map<ProductFilterCriteria>(filterCriteriaDTO));
 
             return productList;
         }
 
 
-        public async Task<Stock> UpdateStockAsync(int stockID, int variantId, int warehouseId, int quantity)
+        public async Task UpdateStockAsync(int stockID, int variantId, int warehouseId, int quantity)
         {
             try
             {
@@ -53,7 +55,7 @@ namespace dotAshFashionNexus.Service
                 }
                 
 
-                return stock;
+               
             }
             catch (Exception ex)
             {
@@ -63,7 +65,7 @@ namespace dotAshFashionNexus.Service
         }
 
 
-        public async Task<Product> GetProductByNameAsync(string SearchEngineFriendlyName)
+        public async Task<ProductDTO> GetProductByNameAsync(string SearchEngineFriendlyName)
         {
 
             try
@@ -73,8 +75,8 @@ namespace dotAshFashionNexus.Service
                 {
                     return null;
                 }
-
-                return product;
+                return _mapper.Map<ProductDTO>(product);
+                
             }
             catch (Exception ex)
             {

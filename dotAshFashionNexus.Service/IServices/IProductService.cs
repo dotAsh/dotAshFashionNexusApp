@@ -10,9 +10,9 @@ namespace dotAshFashionNexus.Service.IServices
 {
     public interface IProductService
     {
-        public Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteria filterCriteria);
-        Task<Product> GetProductByNameAsync(string SearchEngineFriendlyName);
-        public Task<Stock> UpdateStockAsync(int stockID, int variantId, int warehouseId, int quantity);
+        public Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteriaDTO filterCriteria);
+        Task<ProductDTO> GetProductByNameAsync(string SearchEngineFriendlyName);
+        public Task UpdateStockAsync(int stockID, int variantId, int warehouseId, int quantity);
         
     }
 

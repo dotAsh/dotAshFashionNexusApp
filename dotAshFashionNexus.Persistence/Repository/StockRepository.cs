@@ -21,7 +21,7 @@ namespace dotAshFashionNexus.Persistence.Repository
 
         public async Task UpdateAsync(int stockID, int variantId, int warehouseId , int quantity)
         {
-           Stock st =  await _db.Stocks.FirstOrDefaultAsync(s => s.StockID == stockID && s.VariantID == variantId && s.WarehouseID == warehouseId);
+           Stock? st =  await _db.Stocks.FirstOrDefaultAsync(s => s.StockID == stockID && s.VariantID == variantId && s.WarehouseID == warehouseId);
         
             if (st != null && st.Quantity >= quantity)
             {

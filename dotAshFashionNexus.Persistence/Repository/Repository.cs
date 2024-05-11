@@ -76,7 +76,7 @@ namespace dotAshFashionNexus.Persistence.Repository
             var result = await query.FirstOrDefaultAsync();
             if (result != null)
             {
-                _memoryCache.Set(cacheKey, result, TimeSpan.FromMinutes(10)); // Cached for 10 minutes
+                _memoryCache.Set(cacheKey, result, TimeSpan.FromMinutes(10));
             }
 
             return result;
