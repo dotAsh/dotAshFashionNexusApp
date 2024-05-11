@@ -35,7 +35,7 @@ namespace dotAshFashionNexus.Persistence.Migrations
                 {
                     WarehouseID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                    Name = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -49,8 +49,8 @@ namespace dotAshFashionNexus.Persistence.Migrations
                     VariantID = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductID = table.Column<int>(type: "integer", nullable: false),
-                    Color = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    Size = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                    Color = table.Column<string>(type: "text", nullable: false),
+                    Size = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -95,11 +95,11 @@ namespace dotAshFashionNexus.Persistence.Migrations
                 columns: new[] { "ProductID", "CreatedOn", "Name", "SearchEngineFriendlyName" },
                 values: new object[,]
                 {
-                    { 1, new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4680), new TimeSpan(0, 0, 0, 0, 0)), "Product 1", "product-1" },
-                    { 2, new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4694), new TimeSpan(0, 0, 0, 0, 0)), "Product 2", "product-2" },
-                    { 3, new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4697), new TimeSpan(0, 0, 0, 0, 0)), "Product 3", "product-3" },
-                    { 4, new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4700), new TimeSpan(0, 0, 0, 0, 0)), "Product 4", "product-4" },
-                    { 5, new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4704), new TimeSpan(0, 0, 0, 0, 0)), "Product 5", "product-5" }
+                    { 1, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3624), new TimeSpan(0, 0, 0, 0, 0)), "T-Shirt", "t-shirt" },
+                    { 2, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3645), new TimeSpan(0, 0, 0, 0, 0)), "Jeans", "jeans" },
+                    { 3, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3652), new TimeSpan(0, 0, 0, 0, 0)), "Sweater", "sweater" },
+                    { 4, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3657), new TimeSpan(0, 0, 0, 0, 0)), "Dress", "dress" },
+                    { 5, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3663), new TimeSpan(0, 0, 0, 0, 0)), "Shoes", "shoes" }
                 });
 
             migrationBuilder.InsertData(

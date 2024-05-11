@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using dotAshFashionNexus.Service.IServices;
-using dotAshFashionNexus.Service.DTO;
+using dotAshFashionNexus.Persistence.Models;
+using dotAshFashionNexus.Persistence.Data;
+using Microsoft.EntityFrameworkCore;
+using dotAshFashionNexus.Persistence.Models;
 namespace dotAshFashionNexus.API.Controllers
 {
     
@@ -16,58 +19,37 @@ namespace dotAshFashionNexus.API.Controllers
         private readonly IProductService _productService;
         private readonly ILogger<ProductController> _logger;
         protected APIResponse _response;
+
+        
+
+       
         public ProductController(IProductService productService, ILogger<ProductController> logger)
         {
             _productService = productService;
             _logger = logger;
             _response = new();
+            
         }
 
-        
-        [HttpGet]
+
+
+        [HttpGet("GetProductByFriendlyName")]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-
-        public async Task<ActionResult<APIResponse>> GetProductsAsync(int pageSize = 10, int pageNumber = 1, string filterBy = null, string sortBy = "Name")
-        {
-            try
-            {
-
-                IEnumerable<ProductDTO> productDTOList = await _productService.GetAllProductsAsync(filterBy: filterBy, sortBy: sortBy, pageSize: pageSize, pageNumber: pageNumber);
-
-                _response.Result = productDTOList;
-                _response.StatusCode = HttpStatusCode.OK;
-                _logger.LogInformation("getting all products");
-                return Ok(_response);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError("Error :" + ex);
-                _response.IsSuccess = false;
-                _response.ErrorMessages = new List<string> { ex.ToString() };
-
-            }
-            return _response;
-        }
-
-        [HttpGet("{id:int}", Name = "GetProduct")]
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
 
-        public async Task<ActionResult<APIResponse>> GetProductByFriendlyNameAsync(int id)
+
+        public async Task<ActionResult<APIResponse>> GetProductByFriendlyNameAsync(string SearchEngineFriendlyName)
         {
             try
             {
-                if (id == 0)
+                if (string.IsNullOrEmpty(SearchEngineFriendlyName))
                 {
                     _response.IsSuccess = false;
-                    _logger.LogError("get product error with Id " + id);
+                    _logger.LogError("get product error with SearchEngineFriendlyName ");
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
-                ProductDTO product = await _productService.GetProductByIdAsync(id);
+                Object product = await _productService.GetProductByNameAsync(SearchEngineFriendlyName);
                 if (product == null)
                 {
                     _response.IsSuccess = false;
@@ -88,6 +70,93 @@ namespace dotAshFashionNexus.API.Controllers
             }
 
         }
+        
+        [HttpGet]
+        public async Task<ActionResult<APIResponse>> GetProductsAsync
+            (string? ProductName, string? VariantColor, string? VariantSize,
+             string? WarehouseName, int PageSize = 10, int PageNumber = 1, bool InStock = true){
+
+            ProductFilterCriteria filterCriteria = new ProductFilterCriteria
+            {
+                InStock = InStock,
+                VariantColor = VariantColor,
+                VariantSize = VariantSize,
+                WarehouseName = WarehouseName,
+                ProductName = ProductName,
+                PageSize = PageSize,
+                PageNumber = PageNumber
+            };
+
+            try
+            {
+
+                IEnumerable<Object> productDTOList = await _productService.GetAllProductsAsync(filterCriteria);
+
+                _response.Result = productDTOList;
+                _response.StatusCode = HttpStatusCode.OK;
+                _logger.LogInformation("getting all products with variant wise stocks");
+                return Ok(_response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError("Error :" + ex);
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+
+            }
+            return _response;
+
+           
+        }
+
+        [HttpPost("PlaceOrder")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        public async Task<ActionResult<APIResponse>> PlaceOrderAsync(int stockId, int variantId, int warehouseId, int quantity)
+        {
+            try
+            {
+               
+                if (quantity <= 0)
+                {
+                    _response.IsSuccess = false;
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.ErrorMessages = new List<string> { "Quantity must be greater than 0." };
+                    return BadRequest(_response);
+                }
+
+
+               
+                var paymentResult = true; // Mock payment operation
+
+                if (paymentResult)
+                {
+                    
+                    await _productService.UpdateStockAsync(stockId, variantId, warehouseId, quantity);
+
+                    _response.IsSuccess = true;
+                    _response.Result = new { Message = "Order placed successfully." };
+                    _response.StatusCode = HttpStatusCode.OK;
+                    return Ok(_response);
+                }
+                else
+                {
+                    _response.IsSuccess = false;
+                    _response.StatusCode = HttpStatusCode.BadRequest;
+                    _response.ErrorMessages = new List<string> { "Payment failed." };
+                    return BadRequest(_response);
+                }
+            }
+            catch (Exception ex)
+            {
+                _response.IsSuccess = false;
+                _response.ErrorMessages = new List<string> { ex.ToString() };
+                return BadRequest(_response);
+            }
+        }
+
+
+
 
 
     }

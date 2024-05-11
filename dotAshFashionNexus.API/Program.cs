@@ -12,8 +12,8 @@ namespace dotAshFashionNexus.API
             var connectionString = builder.Configuration.GetConnectionString("DefaultSQLConnection");
 
 
+            builder.Services.AddMemoryCache();
 
-           
             builder.Services.RegisterServiceDependencies(connectionString, useInMemoryDatabase);
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

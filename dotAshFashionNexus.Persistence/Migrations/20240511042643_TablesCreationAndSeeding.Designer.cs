@@ -12,7 +12,7 @@ using dotAshFashionNexus.Persistence.Data;
 namespace dotAshFashionNexus.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240508200504_TablesCreationAndSeeding")]
+    [Migration("20240511042643_TablesCreationAndSeeding")]
     partial class TablesCreationAndSeeding
     {
         /// <inheritdoc />
@@ -56,37 +56,37 @@ namespace dotAshFashionNexus.Persistence.Migrations
                         new
                         {
                             ProductID = 1,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4680), new TimeSpan(0, 0, 0, 0, 0)),
-                            Name = "Product 1",
-                            SearchEngineFriendlyName = "product-1"
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3624), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "T-Shirt",
+                            SearchEngineFriendlyName = "t-shirt"
                         },
                         new
                         {
                             ProductID = 2,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4694), new TimeSpan(0, 0, 0, 0, 0)),
-                            Name = "Product 2",
-                            SearchEngineFriendlyName = "product-2"
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3645), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "Jeans",
+                            SearchEngineFriendlyName = "jeans"
                         },
                         new
                         {
                             ProductID = 3,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4697), new TimeSpan(0, 0, 0, 0, 0)),
-                            Name = "Product 3",
-                            SearchEngineFriendlyName = "product-3"
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3652), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "Sweater",
+                            SearchEngineFriendlyName = "sweater"
                         },
                         new
                         {
                             ProductID = 4,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4700), new TimeSpan(0, 0, 0, 0, 0)),
-                            Name = "Product 4",
-                            SearchEngineFriendlyName = "product-4"
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3657), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "Dress",
+                            SearchEngineFriendlyName = "dress"
                         },
                         new
                         {
                             ProductID = 5,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 8, 20, 5, 2, 718, DateTimeKind.Unspecified).AddTicks(4704), new TimeSpan(0, 0, 0, 0, 0)),
-                            Name = "Product 5",
-                            SearchEngineFriendlyName = "product-5"
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3663), new TimeSpan(0, 0, 0, 0, 0)),
+                            Name = "Shoes",
+                            SearchEngineFriendlyName = "shoes"
                         });
                 });
 
@@ -163,16 +163,14 @@ namespace dotAshFashionNexus.Persistence.Migrations
 
                     b.Property<string>("Color")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
                     b.Property<int>("ProductID")
                         .HasColumnType("integer");
 
                     b.Property<string>("Size")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
                     b.HasKey("VariantID");
 
@@ -228,8 +226,7 @@ namespace dotAshFashionNexus.Persistence.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.HasKey("WarehouseID");
 
@@ -266,13 +263,13 @@ namespace dotAshFashionNexus.Persistence.Migrations
             modelBuilder.Entity("dotAshFashionNexus.Persistence.Models.Stock", b =>
                 {
                     b.HasOne("dotAshFashionNexus.Persistence.Models.Variant", "Variant")
-                        .WithMany()
+                        .WithMany("Stocks")
                         .HasForeignKey("VariantID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("dotAshFashionNexus.Persistence.Models.Warehouse", "Warehouse")
-                        .WithMany()
+                        .WithMany("Stocks")
                         .HasForeignKey("WarehouseID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -285,12 +282,27 @@ namespace dotAshFashionNexus.Persistence.Migrations
             modelBuilder.Entity("dotAshFashionNexus.Persistence.Models.Variant", b =>
                 {
                     b.HasOne("dotAshFashionNexus.Persistence.Models.Product", "Product")
-                        .WithMany()
+                        .WithMany("Variants")
                         .HasForeignKey("ProductID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("dotAshFashionNexus.Persistence.Models.Product", b =>
+                {
+                    b.Navigation("Variants");
+                });
+
+            modelBuilder.Entity("dotAshFashionNexus.Persistence.Models.Variant", b =>
+                {
+                    b.Navigation("Stocks");
+                });
+
+            modelBuilder.Entity("dotAshFashionNexus.Persistence.Models.Warehouse", b =>
+                {
+                    b.Navigation("Stocks");
                 });
 #pragma warning restore 612, 618
         }

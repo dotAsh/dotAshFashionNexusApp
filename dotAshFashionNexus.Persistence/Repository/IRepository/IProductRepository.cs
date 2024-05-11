@@ -9,7 +9,7 @@ namespace dotAshFashionNexus.Persistence.Repository.IRepository
 
         Task<Product> UpdateAsync(Product entity);
 
-        
+        Task<IEnumerable<Object>> GetProd(ProductFilterCriteria filterCriteria);
 
 
     }

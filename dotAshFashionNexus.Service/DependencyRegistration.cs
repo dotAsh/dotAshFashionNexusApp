@@ -22,16 +22,16 @@ namespace dotAshFashionNexus.Service
             {
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IProductRepository, ProductRepository>();
-
-                //if (useInMemoryDatabase){
-                //        services.AddDbContext<ApplicationDbContext>(options =>
-                //{
-                //    options.UseInMemoryDatabase("InMemoryDatabaseName");
-                //});
-                // }
-                //else
-                //{
-                services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddScoped<IStockRepository, StockRepository>();
+            //if (useInMemoryDatabase){
+            //        services.AddDbContext<ApplicationDbContext>(options =>
+            //{
+            //    options.UseInMemoryDatabase("InMemoryDatabaseName");
+            //});
+            // }
+            //else
+            //{
+            services.AddDbContext<ApplicationDbContext>(options =>
                 {
                     options.UseNpgsql(connectionString);
                 });

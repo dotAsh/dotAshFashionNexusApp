@@ -8,14 +8,15 @@ using System.Threading.Tasks;
 
 namespace dotAshFashionNexus.Persistence.Models
 {
+   
     public class Warehouse
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int WarehouseID { get; set; }
-
-        [Required]
-        [MaxLength(100)]
         public string Name { get; set; }
+
+        // Navigation property to access stocks associated with this warehouse
+        public ICollection<Stock> Stocks { get; set; }
     }
 }

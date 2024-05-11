@@ -20,16 +20,16 @@ namespace dotAshFashionNexus.Persistence.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            
+            // Products
             modelBuilder.Entity<Product>().HasData(
-                new Product { ProductID = 1, Name = "Product 1", SearchEngineFriendlyName = "product-1", CreatedDate = DateTime.UtcNow },
-                new Product { ProductID = 2, Name = "Product 2", SearchEngineFriendlyName = "product-2", CreatedDate = DateTime.UtcNow },
-                new Product { ProductID = 3, Name = "Product 3", SearchEngineFriendlyName = "product-3", CreatedDate = DateTime.UtcNow },
-                new Product { ProductID = 4, Name = "Product 4", SearchEngineFriendlyName = "product-4", CreatedDate = DateTime.UtcNow },
-                new Product { ProductID = 5, Name = "Product 5", SearchEngineFriendlyName = "product-5", CreatedDate = DateTime.UtcNow }
+                new Product { ProductID = 1, Name = "T-Shirt", SearchEngineFriendlyName = "t-shirt", CreatedDate = DateTime.UtcNow },
+                new Product { ProductID = 2, Name = "Jeans", SearchEngineFriendlyName = "jeans", CreatedDate = DateTime.UtcNow },
+                new Product { ProductID = 3, Name = "Sweater", SearchEngineFriendlyName = "sweater", CreatedDate = DateTime.UtcNow },
+                new Product { ProductID = 4, Name = "Dress", SearchEngineFriendlyName = "dress", CreatedDate = DateTime.UtcNow },
+                new Product { ProductID = 5, Name = "Shoes", SearchEngineFriendlyName = "shoes", CreatedDate = DateTime.UtcNow }
             );
 
-            
+            // Variants
             modelBuilder.Entity<Variant>().HasData(
                 new Variant { VariantID = 1, ProductID = 1, Color = "Red", Size = "Small" },
                 new Variant { VariantID = 2, ProductID = 1, Color = "Blue", Size = "Medium" },
@@ -38,7 +38,7 @@ namespace dotAshFashionNexus.Persistence.Data
                 new Variant { VariantID = 5, ProductID = 4, Color = "White", Size = "Medium" }
             );
 
-            
+            // Warehouses
             modelBuilder.Entity<Warehouse>().HasData(
                 new Warehouse { WarehouseID = 1, Name = "Warehouse 1" },
                 new Warehouse { WarehouseID = 2, Name = "Warehouse 2" },
@@ -47,7 +47,7 @@ namespace dotAshFashionNexus.Persistence.Data
                 new Warehouse { WarehouseID = 5, Name = "Warehouse 5" }
             );
 
-            
+            // Stocks
             modelBuilder.Entity<Stock>().HasData(
                 new Stock { StockID = 1, VariantID = 1, WarehouseID = 1, Quantity = 10 },
                 new Stock { StockID = 2, VariantID = 2, WarehouseID = 2, Quantity = 20 },
@@ -56,5 +56,6 @@ namespace dotAshFashionNexus.Persistence.Data
                 new Stock { StockID = 5, VariantID = 5, WarehouseID = 5, Quantity = 50 }
             );
         }
+
     }
 }

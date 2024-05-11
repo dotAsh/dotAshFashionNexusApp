@@ -19,52 +19,62 @@ namespace dotAshFashionNexus.Service
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
-
-        public ProductService(IProductRepository productRepository)
+        private readonly IStockRepository _stockRepository;
+        public ProductService(IProductRepository productRepository, IStockRepository stockRepository)
         {
             _productRepository = productRepository;
+            _stockRepository = stockRepository;
         }
 
-        public async Task<List<ProductDTO>> GetAllProductsAsync(string filterBy = null, string sortBy = null, int pageSize = 10, int pageNumber = 1)
+        public async Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteria filterCriteria)
         {
-            List<Product> productList;
-            if (filterBy != null)
-            {
-                productList = await _productRepository.GetAllAsync(filter: u => u.Name.Contains(filterBy), pageSize: pageSize, pageNumber: pageNumber);
-            }
-            else
-            {
-                productList = await _productRepository.GetAllAsync(pageSize: pageSize, pageNumber: pageNumber);
-            }
 
-            if (!string.IsNullOrEmpty(sortBy) && productList != null)
-            {
-                var property = typeof(Product).GetProperty(sortBy);
-                if (property != null)
-                {
 
-                    productList = productList.OrderBy(x => property.GetValue(x)).ToList();
-                }
-            }
-            return productList.MapToDTOList();
+            IEnumerable<Object> productList;
+            
+                productList = await _productRepository.GetProd(filterCriteria);
+
+
+
+            return productList;
         }
 
-      
 
-      
+        public async Task<Stock> UpdateStockAsync(int stockID, int variantId, int warehouseId, int quantity)
+        {
+            try
+            {
+                var stock = await _stockRepository.GetAsync(x => x.StockID == stockID && x.VariantID == variantId && x.WarehouseID == warehouseId ,false);
+               
+                if (stock != null && stock.Quantity >= quantity)
+                {
+                    stock.Quantity -= quantity;
+                     await _stockRepository.UpdateAsync(stockID, variantId, warehouseId, quantity);
+                }
+                
 
-        public async Task<ProductDTO> GetProductByIdAsync(int id)
+                return stock;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            
+        }
+
+
+        public async Task<Product> GetProductByNameAsync(string SearchEngineFriendlyName)
         {
 
             try
             {
-                var product = await _productRepository.GetAsync(x => x.ProductID == id, false);
+                var product = await _productRepository.GetAsync(x => x.SearchEngineFriendlyName == SearchEngineFriendlyName, false);
                 if (product == null)
                 {
                     return null;
                 }
 
-                return product.MapToDto();
+                return product;
             }
             catch (Exception ex)
             {
@@ -72,7 +82,7 @@ namespace dotAshFashionNexus.Service
             }
         }
 
-       
+
 
 
     }

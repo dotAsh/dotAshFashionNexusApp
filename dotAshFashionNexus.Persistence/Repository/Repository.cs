@@ -3,6 +3,10 @@ using dotAshFashionNexus.Persistence.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using dotAshFashionNexus.Persistence.Repository.IRepository;
+using Microsoft.EntityFrameworkCore.Storage;
+using StackExchange.Redis;
+using Newtonsoft.Json;
+using Microsoft.Extensions.Caching.Memory;
 //Developed by Md. Ashik
 namespace dotAshFashionNexus.Persistence.Repository
 {
@@ -10,10 +14,11 @@ namespace dotAshFashionNexus.Persistence.Repository
     {
         private readonly ApplicationDbContext _db;
         internal DbSet<T> dbset;
-
-        public Repository(ApplicationDbContext db)
+        private readonly IMemoryCache _memoryCache;
+        public Repository(ApplicationDbContext db, IMemoryCache cache)
         {
             _db = db;
+            _memoryCache = cache;
             dbset = _db.Set<T>();
 
         }
@@ -62,9 +67,19 @@ namespace dotAshFashionNexus.Persistence.Repository
                 query = query.Where(filter);
             }
 
-            
-            return await query.FirstOrDefaultAsync(); 
+            var cacheKey = "GetAsync_" + (filter != null ? filter.ToString() : "NoFilter");
+            if (_memoryCache.TryGetValue(cacheKey, out T cachedResult))
+            {
+                return cachedResult;
+            }
 
+            var result = await query.FirstOrDefaultAsync();
+            if (result != null)
+            {
+                _memoryCache.Set(cacheKey, result, TimeSpan.FromMinutes(10)); // Cached for 10 minutes
+            }
+
+            return result;
         }
 
         public async Task RemoveAsync(T entity)

@@ -8,24 +8,20 @@ using System.Threading.Tasks;
 
 namespace dotAshFashionNexus.Persistence.Models
 {
+   
     public class Variant
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int VariantID { get; set; }
-
-        [Required]
         public int ProductID { get; set; }
+        public string Color { get; set; }
+        public string Size { get; set; }
 
-        [ForeignKey("ProductID")]
+        // Navigation property to access the product associated with this variant
         public Product Product { get; set; }
 
-        [Required]
-        [MaxLength(50)]
-        public string Color { get; set; }
-
-        [Required]
-        [MaxLength(50)]
-        public string Size { get; set; }
+        // Navigation property to access stocks associated with this variant
+        public ICollection<Stock> Stocks { get; set; }
     }
 }
