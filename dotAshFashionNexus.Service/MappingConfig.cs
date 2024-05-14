@@ -3,6 +3,7 @@ using dotAshFashionNexus.Persistence.Models;
 using dotAshFashionNexus.Persistence.Models.DTO;
 using dotAshFashionNexus.Service.DTO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +20,8 @@ namespace dotAshFashionNexus.Service
             CreateMap<ProductFilterCriteriaDTO, ProductFilterCriteria>().ReverseMap();
             CreateMap<ProductDTO, Product>().ReverseMap();
             
+
+            CreateMap<IEnumerable<Product>, IEnumerable<ProductDTO>>().ReverseMap();
 
 
         }

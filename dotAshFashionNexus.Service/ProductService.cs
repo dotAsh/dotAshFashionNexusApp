@@ -15,6 +15,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using dotAshFashionNexus.Service.IServices;
 using AutoMapper;
 using dotAshFashionNexus.Persistence.Models.DTO;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 //Developed by Md. Ashik
 namespace dotAshFashionNexus.Service
 {
@@ -30,15 +31,34 @@ namespace dotAshFashionNexus.Service
             _stockRepository = stockRepository;
         }
 
-        public async Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteriaDTO filterCriteriaDTO)
+        public async Task<IEnumerable<ProductStockDTO>> GetAllProductsAsync(ProductFilterCriteriaDTO filterCriteria)
         {
 
 
-            IEnumerable<Object> productList;
             
-            productList = await _productRepository.GetAllProductsAsync(_mapper.Map<ProductFilterCriteria>(filterCriteriaDTO));
+            
+            IQueryable<ProductStockDTO> joinedQuery = await _productRepository.GetAllProductsAsync(_mapper.Map<ProductFilterCriteria>(filterCriteria));
+            var list = joinedQuery
+                 .Where(jr =>
+                     (string.IsNullOrEmpty(filterCriteria.ProductName) || jr.Name.Contains(filterCriteria.ProductName)) &&
+                     (filterCriteria.InStock ? jr.Stocks.Any(s => s.Quantity > 0) : jr.Stocks.All(s => s.Quantity == 0)) &&
+                     (string.IsNullOrEmpty(filterCriteria.VariantColor) || jr.Color == filterCriteria.VariantColor) &&
+                     (string.IsNullOrEmpty(filterCriteria.VariantSize) || jr.Size == filterCriteria.VariantSize) &&
+                     (string.IsNullOrEmpty(filterCriteria.WarehouseName) || jr.Stocks.Any(s => s.Warehouse.Name == filterCriteria.WarehouseName)))
+                 .OrderBy(jr => jr.CreatedDate)
+                 .ThenByDescending(jr => jr.Stocks.Sum(s => s.Quantity))
+                 .Skip((filterCriteria.PageNumber - 1) * filterCriteria.PageSize)
+                 .Take(filterCriteria.PageSize).ToList();
 
-            return productList;
+
+
+
+            list = list.GroupBy(jr => new { jr.ProductID, jr.VariantID })
+           .Select(g => g.First())
+           .ToList();
+
+
+            return list;
         }
 
 

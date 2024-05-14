@@ -29,47 +29,36 @@ namespace dotAshFashionNexus.Persistence.Repository
             await _db.SaveChangesAsync();
             return entity;
         }
-        public async Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteria filterCriteria){
+        public async Task<IQueryable<ProductStockDTO>> GetAllProductsAsync(ProductFilterCriteria filterCriteria){
+
+
+
+            var joinedQuery = from product in _db.Products
+                              join variant in _db.Variants on product.ProductID equals variant.ProductID
+                              join stock in _db.Stocks on variant.VariantID equals stock.VariantID
+                              join warehouse in _db.Warehouses on stock.WarehouseID equals warehouse.WarehouseID
+                              select new ProductStockDTO
+                              {
+                                  ProductID = product.ProductID,
+                                  Name = product.Name,
+                                  SearchEngineFriendlyName = product.SearchEngineFriendlyName,
+                                  CreatedDate = product.CreatedDate,
+                                  VariantID = variant.VariantID,
+                                  Color = variant.Color,
+                                  Size = variant.Size,
+                                  Stocks = variant.Stocks.Select(s => new StockDTO
+                                  {
+                                      StockID = s.StockID,
+                                      Quantity = s.Quantity,
+                                      Warehouse = new WarehouseDTO
+                                      {
+                                          WarehouseID = s.Warehouse.WarehouseID,
+                                          Name = s.Warehouse.Name
+                                      }
+                                  }).AsQueryable()
+                              };
            
-            var query = from product in _db.Products
-                        from variant in product.Variants
-                        from stock in variant.Stocks
-                        where (string.IsNullOrEmpty(filterCriteria.ProductName) || product.Name.Contains(filterCriteria.ProductName)) &&
-                              (filterCriteria.InStock ? stock.Quantity > 0 : stock.Quantity == 0) &&
-
-                              (string.IsNullOrEmpty(filterCriteria.VariantColor) || variant.Color == filterCriteria.VariantColor) &&
-                              (string.IsNullOrEmpty(filterCriteria.VariantSize) || variant.Size == filterCriteria.VariantSize) &&
-                              (string.IsNullOrEmpty(filterCriteria.WarehouseName) || stock.Warehouse.Name == filterCriteria.WarehouseName)
-                        orderby product.CreatedDate
-                        select new
-                        {
-                            ProductID = product.ProductID,
-                            Name = product.Name,
-                            SearchEngineFriendlyName = product.SearchEngineFriendlyName,
-                            CreatedOn = product.CreatedDate,
-                            VariantID = variant.VariantID,
-                            Color = variant.Color,
-                            Size = variant.Size,
-                            Stocks = from stock in variant.Stocks
-                                     select new
-                                     {
-                                         StockID = stock.StockID,
-                                         Quantity = stock.Quantity,
-                                         Warehouse = new
-                                         {
-                                             WarehouseID = stock.Warehouse.WarehouseID,
-                                             Name = stock.Warehouse.Name
-                                         }
-                                     }
-                        };
-
-            
-
-            var paginatedQuery = query.Skip((filterCriteria.PageNumber - 1) * filterCriteria.PageSize)
-                                      .Take(filterCriteria.PageSize);
-
-
-            return await paginatedQuery.ToListAsync();
+            return joinedQuery;
         }
 
     }

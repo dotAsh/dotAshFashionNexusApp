@@ -53,35 +53,35 @@ namespace dotAshFashionNexus.Persistence.Migrations
                         new
                         {
                             ProductID = 1,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3624), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2091), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "T-Shirt",
                             SearchEngineFriendlyName = "t-shirt"
                         },
                         new
                         {
                             ProductID = 2,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3645), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2103), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "Jeans",
                             SearchEngineFriendlyName = "jeans"
                         },
                         new
                         {
                             ProductID = 3,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3652), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2105), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "Sweater",
                             SearchEngineFriendlyName = "sweater"
                         },
                         new
                         {
                             ProductID = 4,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3657), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2107), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "Dress",
                             SearchEngineFriendlyName = "dress"
                         },
                         new
                         {
                             ProductID = 5,
-                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3663), new TimeSpan(0, 0, 0, 0, 0)),
+                            CreatedDate = new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2109), new TimeSpan(0, 0, 0, 0, 0)),
                             Name = "Shoes",
                             SearchEngineFriendlyName = "shoes"
                         });
@@ -124,7 +124,7 @@ namespace dotAshFashionNexus.Persistence.Migrations
                         {
                             StockID = 2,
                             Quantity = 20,
-                            VariantID = 2,
+                            VariantID = 1,
                             WarehouseID = 2
                         },
                         new

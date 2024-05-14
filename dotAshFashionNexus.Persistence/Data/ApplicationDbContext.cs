@@ -50,7 +50,7 @@ namespace dotAshFashionNexus.Persistence.Data
             // Stocks
             modelBuilder.Entity<Stock>().HasData(
                 new Stock { StockID = 1, VariantID = 1, WarehouseID = 1, Quantity = 10 },
-                new Stock { StockID = 2, VariantID = 2, WarehouseID = 2, Quantity = 20 },
+                new Stock { StockID = 2, VariantID = 1, WarehouseID = 2, Quantity = 20 },
                 new Stock { StockID = 3, VariantID = 3, WarehouseID = 3, Quantity = 30 },
                 new Stock { StockID = 4, VariantID = 4, WarehouseID = 4, Quantity = 40 },
                 new Stock { StockID = 5, VariantID = 5, WarehouseID = 5, Quantity = 50 }

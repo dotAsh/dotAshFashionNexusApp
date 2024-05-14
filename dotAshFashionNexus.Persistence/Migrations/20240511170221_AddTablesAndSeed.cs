@@ -9,7 +9,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace dotAshFashionNexus.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class TablesCreationAndSeeding : Migration
+    public partial class AddTablesAndSeed : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -95,11 +95,11 @@ namespace dotAshFashionNexus.Persistence.Migrations
                 columns: new[] { "ProductID", "CreatedOn", "Name", "SearchEngineFriendlyName" },
                 values: new object[,]
                 {
-                    { 1, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3624), new TimeSpan(0, 0, 0, 0, 0)), "T-Shirt", "t-shirt" },
-                    { 2, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3645), new TimeSpan(0, 0, 0, 0, 0)), "Jeans", "jeans" },
-                    { 3, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3652), new TimeSpan(0, 0, 0, 0, 0)), "Sweater", "sweater" },
-                    { 4, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3657), new TimeSpan(0, 0, 0, 0, 0)), "Dress", "dress" },
-                    { 5, new DateTimeOffset(new DateTime(2024, 5, 11, 4, 26, 41, 133, DateTimeKind.Unspecified).AddTicks(3663), new TimeSpan(0, 0, 0, 0, 0)), "Shoes", "shoes" }
+                    { 1, new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2091), new TimeSpan(0, 0, 0, 0, 0)), "T-Shirt", "t-shirt" },
+                    { 2, new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2103), new TimeSpan(0, 0, 0, 0, 0)), "Jeans", "jeans" },
+                    { 3, new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2105), new TimeSpan(0, 0, 0, 0, 0)), "Sweater", "sweater" },
+                    { 4, new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2107), new TimeSpan(0, 0, 0, 0, 0)), "Dress", "dress" },
+                    { 5, new DateTimeOffset(new DateTime(2024, 5, 11, 17, 2, 19, 853, DateTimeKind.Unspecified).AddTicks(2109), new TimeSpan(0, 0, 0, 0, 0)), "Shoes", "shoes" }
                 });
 
             migrationBuilder.InsertData(
@@ -132,7 +132,7 @@ namespace dotAshFashionNexus.Persistence.Migrations
                 values: new object[,]
                 {
                     { 1, 10, 1, 1 },
-                    { 2, 20, 2, 2 },
+                    { 2, 20, 1, 2 },
                     { 3, 30, 3, 3 },
                     { 4, 40, 4, 4 },
                     { 5, 50, 5, 5 }

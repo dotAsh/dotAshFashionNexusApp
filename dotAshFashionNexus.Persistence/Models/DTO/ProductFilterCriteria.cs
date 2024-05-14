@@ -16,5 +16,37 @@ namespace dotAshFashionNexus.Persistence.Models.DTO
         public int PageSize { get; set; }
         public int PageNumber { get; set; }
     }
-    
+    public class ProductStockDTO
+    {
+        public int ProductID { get; set; }
+        public string Name { get; set; }
+        public string SearchEngineFriendlyName { get; set; }
+        public DateTimeOffset CreatedDate { get; set; }
+        public int VariantID { get; set; }
+        public string Color { get; set; }
+        public string Size { get; set; }
+        public IEnumerable<StockDTO> Stocks { get; set; } // A list of stocks associated with the variant
+
+        // Constructor to initialize the list of stocks
+        public ProductStockDTO()
+        {
+            Stocks = new List<StockDTO>();
+        }
+    }
+
+    public class StockDTO
+    {
+        public int StockID { get; set; }
+        public int Quantity { get; set; }
+        public WarehouseDTO Warehouse { get; set; } // Warehouse information associated with the stock
+    }
+
+    public class WarehouseDTO
+    {
+        public int WarehouseID { get; set; }
+        public string Name { get; set; }
+    }
+
+
+
 }

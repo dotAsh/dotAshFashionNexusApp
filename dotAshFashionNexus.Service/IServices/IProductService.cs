@@ -1,4 +1,5 @@
 ﻿using dotAshFashionNexus.Persistence.Models;
+using dotAshFashionNexus.Persistence.Models.DTO;
 using dotAshFashionNexus.Service.DTO;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace dotAshFashionNexus.Service.IServices
 {
     public interface IProductService
     {
-        public Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteriaDTO filterCriteria);
+        public Task<IEnumerable<ProductStockDTO>> GetAllProductsAsync(ProductFilterCriteriaDTO filterCriteria);
         Task<ProductDTO> GetProductByNameAsync(string SearchEngineFriendlyName);
         public Task UpdateStockAsync(int stockID, int variantId, int warehouseId, int quantity);
         

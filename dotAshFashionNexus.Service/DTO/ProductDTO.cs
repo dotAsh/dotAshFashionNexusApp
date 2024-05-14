@@ -21,11 +21,14 @@ namespace dotAshFashionNexus.Service.DTO
         public List<StockDTO> Stocks { get; set; }
     }
 
+   
+   
+
     public class StockDTO
     {
         public int StockID { get; set; }
         public int Quantity { get; set; }
-        public WarehouseDTO Warehouse { get; set; }
+        public WarehouseDTO Warehouse { get; set; } // Warehouse information associated with the stock
     }
 
     public class WarehouseDTO
@@ -33,5 +36,6 @@ namespace dotAshFashionNexus.Service.DTO
         public int WarehouseID { get; set; }
         public string Name { get; set; }
     }
+
 
 }

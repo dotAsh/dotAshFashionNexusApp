@@ -10,7 +10,7 @@ namespace dotAshFashionNexus.Persistence.Repository.IRepository
 
         Task<Product> UpdateAsync(Product entity);
 
-        Task<IEnumerable<Object>> GetAllProductsAsync(ProductFilterCriteria filterCriteria);
+        Task<IQueryable<ProductStockDTO>> GetAllProductsAsync(ProductFilterCriteria filterCriteria);
 
 
     }
